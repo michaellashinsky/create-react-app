@@ -37,13 +37,13 @@ module.exports = {
         getDev: function () {
             return {
                 test: /(\.scss|\.sass)$/,
-                loader: "style!css!postcss!sass"
+                loader: "style!css!postcss!sass!resolve-url!sass?sourceMap"
             }
         },
         getProd: function () {
             return {
                 test: /(\.scss|\.sass)$/,
-                loader: ExtractTextPlugin.extract('style', 'css!postcss!sass')
+                loader: ExtractTextPlugin.extract('style', 'css!postcss!sass!resolve-url!sass?sourceMap')
             }
         }
     },

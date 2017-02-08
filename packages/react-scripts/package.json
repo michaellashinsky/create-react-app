@@ -1,6 +1,6 @@
 {
   "name": "react-scripts-configurable",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Configuration and scripts for Create React App forked from the original.",
   "repository": "michaellashinsky/create-react-app",
   "license": "BSD-3-Clause",
@@ -66,6 +66,7 @@
     "promise": "7.1.1",
     "react-dev-utils": "^0.4.2",
     "recursive-readdir": "2.1.0",
+    "resolve-url-loader": "^1.6.1",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.1.1",
     "strip-ansi": "3.0.1",
