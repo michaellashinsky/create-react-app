@@ -84,8 +84,5 @@
   },
   "optionalDependencies": {
     "fsevents": "1.0.17"
-  },
-  "peerDependencies": {
-    "eslint-plugin-jsx-a11y": "4.0.0"
   }
 }
