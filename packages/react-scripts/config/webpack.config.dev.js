@@ -240,6 +240,6 @@ module.exports = {
         tls: 'empty'
     },
     externals: [
-        customConfig.values.WEBPACK_EXTERNALS
+        JSON.parse(customConfig.values.WEBPACK_EXTERNALS)
     ]
 };
