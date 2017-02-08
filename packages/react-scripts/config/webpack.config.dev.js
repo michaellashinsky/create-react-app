@@ -193,7 +193,7 @@ module.exports = {
     },
     // @remove-on-eject-end
     // We use PostCSS for autoprefixing only.
-    postcss: function() {
+    postcss: function () {
         return [
             autoprefixer({
                 browsers: [
@@ -238,5 +238,8 @@ module.exports = {
         fs: 'empty',
         net: 'empty',
         tls: 'empty'
-    }
+    },
+    externals: [
+        customConfig.values.WEBPACK_EXTERNALS
+    ]
 };

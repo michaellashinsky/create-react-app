@@ -280,5 +280,8 @@ module.exports = {
         fs: 'empty',
         net: 'empty',
         tls: 'empty'
-    }
+    },
+    externals: [
+        customConfig.values.WEBPACK_EXTERNALS
+    ]
 };

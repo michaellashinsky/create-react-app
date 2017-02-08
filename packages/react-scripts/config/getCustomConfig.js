@@ -1,29 +1,33 @@
-const customizers = require('./customConfigOptions');
+const configOptions = require('./customConfigOptions');
 
 function getCustomConfig(prod) {
     const production = prod || false;
-    const env = {};
     return Object
-        .keys(customizers)
-        .reduce(function (finalConfig, customizerKey) {
-            const customizer = customizers[customizerKey];
-            if (customizer.prod === false && production === true) {
+        .keys(configOptions)
+        .reduce(function (finalConfig, configOptionKey) {
+            const configOption = configOptions[configOptionKey];
+            const env = process.env['REACT_APP_' + configOptionKey];
+
+            if (configOptionKey === 'WEBPACK_EXTERNALS' && env && env !== false) {
+                finalConfig.values[configOptionKey] = env;
+            }
+
+            if (configOption.prod === false && production === true) {
                 return finalConfig;
             }
 
-            const envValue = process.env['REACT_APP_' + customizerKey];
-            if (env && envValue && envValue !== 'false') {
+            if (env && env !== 'false' && configOptionKey !== 'WEBPACK_EXTERNALS') {
 
-                if (customizer.toArray) {
-                    const getCustomizer = (production ? customizer.getProd : customizer.getDev) || customizer.getDev;
-                    finalConfig[customizer.toArray].push(getCustomizer());
+                if (configOption.toArray) {
+                    const getCustomizer = (production ? configOption.getProd : configOption.getDev) || configOption.getDev;
+                    finalConfig[configOption.toArray].push(getCustomizer());
                 }
 
-                if (customizer.fileRegex) {
-                    finalConfig.excludedFilesRegex.push(customizer.fileRegex);
+                if (configOption.fileRegex) {
+                    finalConfig.excludedFilesRegex.push(configOption.fileRegex);
                 }
 
-                finalConfig.values[customizerKey] = customizer.config || true;
+                finalConfig.values[configOptionKey] = configOption.config || true;
             }
 
             return finalConfig;
