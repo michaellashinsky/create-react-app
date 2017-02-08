@@ -1,6 +1,6 @@
 {
   "name": "react-scripts-configurable",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Configuration and scripts for Create React App forked from the original.",
   "repository": "michaellashinsky/create-react-app",
   "license": "BSD-3-Clause",
@@ -84,5 +84,8 @@
   },
   "optionalDependencies": {
     "fsevents": "1.0.17"
+  },
+  "peerDependencies": {
+    "eslint-plugin-jsx-a11y": "4.0.0"
   }
 }
