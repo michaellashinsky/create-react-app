@@ -30,7 +30,9 @@ const plugins = [
     regenerator: true,
     // Resolve the Babel runtime relative to the config.
     moduleName: path.dirname(require.resolve('babel-runtime/package'))
-  }]
+  }],
+  // Enables parsing of import()
+  require.resolve('babel-plugin-syntax-dynamic-import')
 ];
 
 // This is similar to how `env` works in Babel:
@@ -107,13 +109,8 @@ if (env === 'test') {
 
   if (env === 'production') {
     // Optimization: hoist JSX that never changes out of render()
-    // Disabled because of issues:
-    // * https://github.com/facebookincubator/create-react-app/issues/525
-    // * https://phabricator.babeljs.io/search/query/pCNlnC2xzwzx/
-    // * https://github.com/babel/babel/issues/4516
-    // TODO: Enable again when these issues are resolved.
-    // plugins.push.apply(plugins, [
-    //   require.resolve('babel-plugin-transform-react-constant-elements')
-    // ]);
+    plugins.push.apply(plugins, [
+      require.resolve('babel-plugin-transform-react-constant-elements')
+    ]);
   }
 }

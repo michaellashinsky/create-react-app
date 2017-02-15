@@ -109,7 +109,9 @@ module.exports = {
     // @remove-on-eject-end
     module: {
         rules: [
-            // First, run the linter.
+            // Disable require.ensure as it's not a standard language feature.
+      { parser: { requireEnsure: false } },
+      // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
                 test: /\.(js|jsx)$/,
