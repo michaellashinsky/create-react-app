@@ -50,7 +50,9 @@ prompt(
   ];
 
   var files = [
+        path.join('config', 'configOptions.js'),
     path.join('config', 'env.js'),
+        path.join('config', 'getCustomConfig.js'),
     path.join('config', 'paths.js'),
     path.join('config', 'polyfills.js'),
     path.join('config', 'webpack.config.dev.js'),
