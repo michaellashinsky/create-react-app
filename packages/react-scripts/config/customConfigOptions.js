@@ -1,5 +1,6 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+//TODO rewire/rewrute for webpack 2.0
 module.exports = {
     'BABEL_PRESET_STAGE_0': {
         toArray: 'presets',
