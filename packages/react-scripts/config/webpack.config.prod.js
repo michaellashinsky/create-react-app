@@ -115,8 +115,8 @@ module.exports = {
     module: {
         rules: [
             // Disable require.ensure as it's not a standard language feature.
-      { parser: { requireEnsure: false } },
-      // First, run the linter.
+            { parser: { requireEnsure: false } },
+            // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
                 test: /\.(js|jsx)$/,
@@ -192,7 +192,8 @@ module.exports = {
                         {
                             loader: 'css-loader',
                             options: {
-                                importLoaders: 1
+                                importLoaders: 1,
+                                modules: customConfig.values.STYLES_CSS_MODULES
                             }
                         }, {
                             loader: 'postcss-loader',

@@ -110,8 +110,8 @@ module.exports = {
     module: {
         rules: [
             // Disable require.ensure as it's not a standard language feature.
-      { parser: { requireEnsure: false } },
-      // First, run the linter.
+            { parser: { requireEnsure: false } },
+            // First, run the linter.
             // It's important to do this before Babel processes the JS.
             {
                 test: /\.(js|jsx)$/,
@@ -174,14 +174,21 @@ module.exports = {
             // In production, we use a plugin to extract that CSS to a file, but
             // in development "style" loader enables hot editing of CSS.
 
-            //TODO css modules
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader', {
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 1
+                            importLoaders: 1,
+                            modules: customConfig.values.STYLES_CSS_MODULES,
+                            sourceMap: true
                         }
                     }, {
                         loader: 'postcss-loader',
