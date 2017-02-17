@@ -74,11 +74,11 @@ module.exports = {
                         }
                     },
                     {
-                        loader: "sass-loader",
-                        options: { sourceMap: true }
+                        loader: "resolve-url-loader"
                     },
                     {
-                        loader: "resolve-url-loader"
+                        loader: "sass-loader",
+                        options: { sourceMap: true }
                     }
                 ]
             }
@@ -112,11 +112,11 @@ module.exports = {
                             }
                         },
                         {
-                            loader: "sass-loader",
-                            options: { sourceMap: true }
+                            loader: "resolve-url-loader"
                         },
                         {
-                            loader: "resolve-url-loader"
+                            loader: "sass-loader",
+                            options: { sourceMap: true }
                         }
                     ]
                 }, extractTextPluginOptions))
@@ -157,11 +157,11 @@ module.exports = {
                         }
                     },
                     {
-                        loader: "less-loader",
-                        options: { sourceMap: true }
+                        loader: "resolve-url-loader"
                     },
                     {
-                        loader: "resolve-url-loader"
+                        loader: "less-loader",
+                        options: { sourceMap: true }
                     }
                 ]
             }
@@ -195,11 +195,11 @@ module.exports = {
                             }
                         },
                         {
-                            loader: "less-loader",
-                            options: { sourceMap: true }
+                            loader: "resolve-url-loader"
                         },
                         {
-                            loader: "resolve-url-loader"
+                            loader: "less-loader",
+                            options: { sourceMap: true }
                         }
                     ]
                 }, extractTextPluginOptions))
