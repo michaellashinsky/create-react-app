@@ -48,12 +48,11 @@ module.exports = {
                 test: /\.(scss|sass)/,
                 use: [
                     {
-                        loader: "style-loader",
-                        options: { sourceMap: true }
+                        loader: "style-loader"
                     },
                     {
                         loader: "css-loader",
-                        options: { sourceMap: true }
+                        options: { sourceMap: true, importLoaders: 3, camelCase: true }
                     },
                     {
                         loader: 'postcss-loader',
@@ -74,7 +73,8 @@ module.exports = {
                         }
                     },
                     {
-                        loader: "resolve-url-loader"
+                        loader: "resolve-url-loader",
+                        options: { sourceMap: true, keepQuery: true }
                     },
                     {
                         loader: "sass-loader",
@@ -91,7 +91,7 @@ module.exports = {
                     use: [
                         {
                             loader: 'css-loader',
-                            options: { sourceMap: true }
+                            options: { importLoaders: 3, camelCase: true }
                         },
                         {
                             loader: 'postcss-loader',
@@ -112,7 +112,8 @@ module.exports = {
                             }
                         },
                         {
-                            loader: "resolve-url-loader"
+                            loader: "resolve-url-loader",
+                            options: { keepQuery: true }
                         },
                         {
                             loader: "sass-loader",
@@ -131,12 +132,11 @@ module.exports = {
                 test: /\.less$/,
                 use: [
                     {
-                        loader: "style-loader",
-                        options: { sourceMap: true }
+                        loader: "style-loader"
                     },
                     {
                         loader: "css-loader",
-                        options: { sourceMap: true }
+                        options: { sourceMap: true, importLoaders: 3, camelCase: true }
                     },
                     {
                         loader: 'postcss-loader',
@@ -157,7 +157,8 @@ module.exports = {
                         }
                     },
                     {
-                        loader: "resolve-url-loader"
+                        loader: "resolve-url-loader",
+                        options: { sourceMap: true, keepQuery: true }
                     },
                     {
                         loader: "less-loader",
@@ -174,7 +175,7 @@ module.exports = {
                     use: [
                         {
                             loader: 'css-loader',
-                            options: { sourceMap: true }
+                            options: { importLoaders: 3, camelCase: true }
                         },
                         {
                             loader: 'postcss-loader',
@@ -195,7 +196,8 @@ module.exports = {
                             }
                         },
                         {
-                            loader: "resolve-url-loader"
+                            loader: "resolve-url-loader",
+                            options: { keepQuery: true }
                         },
                         {
                             loader: "less-loader",
@@ -219,7 +221,25 @@ module.exports = {
                     },
                     {
                         loader: "css-loader",
-                        options: { sourceMap: true }
+                        options: { sourceMap: true, importLoaders: 2, camelCase: true }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: function () {
+                                return [
+                                    autoprefixer({
+                                        browsers: [
+                                            '>1%',
+                                            'last 4 versions',
+                                            'Firefox ESR',
+                                            'not ie < 9',
+                                        ]
+                                    })
+                                ]
+                            }
+                        }
                     },
                     {
                         loader: "stylus-loader",
@@ -236,7 +256,7 @@ module.exports = {
                     use: [
                         {
                             loader: 'css-loader',
-                            options: { sourceMap: true }
+                            options: { importLoaders: 2, camelCase: true }
                         },
                         {
                             loader: 'postcss-loader',
@@ -257,8 +277,7 @@ module.exports = {
                             }
                         },
                         {
-                            loader: "stylus-loader",
-                            options: { sourceMap: true }
+                            loader: "stylus-loader"
                         }
                     ]
                 }, extractTextPluginOptions))
