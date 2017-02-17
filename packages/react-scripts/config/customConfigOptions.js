@@ -56,9 +56,6 @@ module.exports = {
                         options: { sourceMap: true }
                     },
                     {
-                        loader: "resolve-url-loader"
-                    },
-                    {
                         loader: 'postcss-loader',
                         options: {
                             ident: 'postcss',
@@ -75,6 +72,9 @@ module.exports = {
                                 ]
                             }
                         }
+                    },
+                    {
+                        loader: "resolve-url-loader"
                     },
                     {
                         loader: "sass-loader",
@@ -94,9 +94,6 @@ module.exports = {
                             options: { sourceMap: true }
                         },
                         {
-                            loader: "resolve-url-loader"
-                        },
-                        {
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
@@ -113,6 +110,9 @@ module.exports = {
                                     ]
                                 }
                             }
+                        },
+                        {
+                            loader: "resolve-url-loader"
                         },
                         {
                             loader: "sass-loader",
@@ -157,6 +157,9 @@ module.exports = {
                         }
                     },
                     {
+                        loader: "resolve-url-loader"
+                    },
+                    {
                         loader: "less-loader",
                         options: { sourceMap: true }
                     }
@@ -172,9 +175,6 @@ module.exports = {
                         {
                             loader: 'css-loader',
                             options: { sourceMap: true }
-                        },
-                        {
-                            loader: "resolve-url-loader"
                         },
                         {
                             loader: 'postcss-loader',
@@ -193,6 +193,9 @@ module.exports = {
                                     ]
                                 }
                             }
+                        },
+                        {
+                            loader: "resolve-url-loader"
                         },
                         {
                             loader: "less-loader",

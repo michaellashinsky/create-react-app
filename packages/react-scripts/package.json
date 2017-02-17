@@ -1,6 +1,6 @@
 {
   "name": "react-scripts-configurable",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Configuration and scripts for Create React App forked from the original.",
   "repository": "michaellashinsky/create-react-app",
   "license": "BSD-3-Clause",
