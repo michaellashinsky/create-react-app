@@ -1,6 +1,14 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-//TODO rewire/rewrute for webpack 2.0
+const paths = require('./paths');
+const publicPath = paths.servedPath;
+const shouldUseRelativeAssetPaths = publicPath === './';
+const cssFilename = 'static/css/[name].[contenthash:8].css';
+const extractTextPluginOptions = shouldUseRelativeAssetPaths
+    ? { publicPath: new Array(cssFilename.split('/').length).join('../') }
+    : {};
+
 module.exports = {
     'BABEL_PRESET_STAGE_0': {
         toArray: 'presets',
@@ -37,14 +45,81 @@ module.exports = {
         fileRegex: /\.(scss|sass)/,
         getDev: function () {
             return {
-                test: /(\.scss|\.sass)$/,
-                loader: "style!css!postcss!sass!resolve-url!sass?sourceMap"
+                test: /\.(scss|sass)/,
+                use: [
+                    {
+                        loader: "style-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "css-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "resolve-url-loader"
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: function () {
+                                return [
+                                    autoprefixer({
+                                        browsers: [
+                                            '>1%',
+                                            'last 4 versions',
+                                            'Firefox ESR',
+                                            'not ie < 9',
+                                        ]
+                                    })
+                                ]
+                            }
+                        }
+                    }
+                ]
             }
         },
         getProd: function () {
             return {
-                test: /(\.scss|\.sass)$/,
-                loader: ExtractTextPlugin.extract('style', 'css!postcss!sass!resolve-url!sass?sourceMap')
+                test: /\.(scss|sass)/,
+                loader: ExtractTextPlugin.extract(Object.assign({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: { sourceMap: true }
+                        },
+                        {
+                            loader: "resolve-url-loader"
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: function () {
+                                    return [
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9',
+                                            ]
+                                        })
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            loader: "sass-loader",
+                            options: { sourceMap: true }
+                        }
+                    ]
+                }, extractTextPluginOptions))
             }
         }
     },
@@ -54,13 +129,77 @@ module.exports = {
         getDev: function () {
             return {
                 test: /\.less$/,
-                loader: "style!css!postcss!less"
+                use: [
+                    {
+                        loader: "style-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "css-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "less-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: function () {
+                                return [
+                                    autoprefixer({
+                                        browsers: [
+                                            '>1%',
+                                            'last 4 versions',
+                                            'Firefox ESR',
+                                            'not ie < 9',
+                                        ]
+                                    })
+                                ]
+                            }
+                        }
+                    }
+                ]
             }
         },
         getProd: function () {
             return {
-                test: /\.less/,
-                loader: ExtractTextPlugin.extract('style', 'css!postcss!less')
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract(Object.assign({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: { sourceMap: true }
+                        },
+                        {
+                            loader: "resolve-url-loader"
+                        },
+                        {
+                            loader: "sass-loader",
+                            options: { sourceMap: true }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: function () {
+                                    return [
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9',
+                                            ]
+                                        })
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }, extractTextPluginOptions))
             }
         }
     },
@@ -69,14 +208,57 @@ module.exports = {
         fileRegex: /\.styl$/,
         getDev: function () {
             return {
-                test: /\.styl/,
-                loader: 'style!css!postcss!stylus'
+                test: /\.styl$/,
+                use: [
+                    {
+                        loader: "style-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "css-loader",
+                        options: { sourceMap: true }
+                    },
+                    {
+                        loader: "stylus-loader",
+                        options: { sourceMap: true }
+                    },
+                ]
             }
         },
         getProd: function () {
             return {
-                test: /\.styl/,
-                loader: ExtractTextPlugin.extract('style', 'css!postcss!stylus')
+                test: /\.styl$/,
+                loader: ExtractTextPlugin.extract(Object.assign({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: { sourceMap: true }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: function () {
+                                    return [
+                                        autoprefixer({
+                                            browsers: [
+                                                '>1%',
+                                                'last 4 versions',
+                                                'Firefox ESR',
+                                                'not ie < 9',
+                                            ]
+                                        })
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            loader: "stylus-loader",
+                            options: { sourceMap: true }
+                        }
+                    ]
+                }, extractTextPluginOptions))
             }
         }
     },
