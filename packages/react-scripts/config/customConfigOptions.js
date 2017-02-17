@@ -59,10 +59,6 @@ module.exports = {
                         loader: "resolve-url-loader"
                     },
                     {
-                        loader: "sass-loader",
-                        options: { sourceMap: true }
-                    },
-                    {
                         loader: 'postcss-loader',
                         options: {
                             ident: 'postcss',
@@ -79,6 +75,10 @@ module.exports = {
                                 ]
                             }
                         }
+                    },
+                    {
+                        loader: "sass-loader",
+                        options: { sourceMap: true }
                     }
                 ]
             }
@@ -139,10 +139,6 @@ module.exports = {
                         options: { sourceMap: true }
                     },
                     {
-                        loader: "less-loader",
-                        options: { sourceMap: true }
-                    },
-                    {
                         loader: 'postcss-loader',
                         options: {
                             ident: 'postcss',
@@ -159,6 +155,10 @@ module.exports = {
                                 ]
                             }
                         }
+                    },
+                    {
+                        loader: "less-loader",
+                        options: { sourceMap: true }
                     }
                 ]
             }
@@ -177,10 +177,6 @@ module.exports = {
                             loader: "resolve-url-loader"
                         },
                         {
-                            loader: "sass-loader",
-                            options: { sourceMap: true }
-                        },
-                        {
                             loader: 'postcss-loader',
                             options: {
                                 ident: 'postcss',
@@ -197,7 +193,11 @@ module.exports = {
                                     ]
                                 }
                             }
-                        }
+                        },
+                        {
+                            loader: "less-loader",
+                            options: { sourceMap: true }
+                        },
                     ]
                 }, extractTextPluginOptions))
             }
