@@ -39,6 +39,7 @@
 'use strict';
 
 var chalk = require('chalk');
+var validateProjectName = require("validate-npm-package-name");
 
 var currentNodeVersion = process.versions.node;
 if (currentNodeVersion.split('.')[0] < 4) {
@@ -97,6 +98,14 @@ if (typeof projectName === 'undefined') {
   process.exit(1);
 }
 
+function printValidationResults(results) {
+  if (typeof results !== 'undefined') {
+    results.forEach(function (error) {
+      console.error(chalk.red('  * ' + error));
+    });
+  }
+}
+
 var hiddenProgram = new commander.Command()
   .option('--internal-testing-template <path-to-template>', '(internal usage only, DO NOT RELY ON THIS) ' +
     'use a non-standard application template')
@@ -152,6 +161,7 @@ function install(dependencies, verbose, callback) {
     command = 'yarnpkg';
     args = [ 'add', '--exact'].concat(dependencies);
   } else {
+    checkNpmVersion();
     command = 'npm';
     args = ['install', '--save', '--save-exact'].concat(dependencies);
   }
@@ -173,20 +183,48 @@ function run(root, appName, version, verbose, originalDirectory, template) {
   var allDependencies = ['react', 'react-dom', packageToInstall];
 
   console.log('Installing packages. This might take a couple minutes.');
-  console.log('Installing ' + chalk.cyan('react, react-dom, ' + packageName) + '...');
+  console.log(
+    'Installing ' + chalk.cyan('react') + ', ' + chalk.cyan('react-dom') +
+    ', and ' + chalk.cyan(packageName) + '...'
+  );
   console.log();
 
   install(allDependencies, verbose, function(code, command, args) {
     if (code !== 0) {
-      console.error(chalk.cyan(command + ' ' + args.join(' ')) + ' failed');
+      console.log();
+      console.error('Aborting installation.', chalk.cyan(command + ' ' + args.join(' ')), 'has failed.');
+      // On 'exit' we will delete these files from target directory.
+      var knownGeneratedFiles = [
+        'package.json', 'npm-debug.log', 'yarn-error.log', 'yarn-debug.log', 'node_modules'
+      ];
+      var currentFiles = fs.readdirSync(path.join(root));
+      currentFiles.forEach(function (file) {
+        knownGeneratedFiles.forEach(function (fileToMatch) {
+          // This will catch `(npm-debug|yarn-error|yarn-debug).log*` files
+          // and the rest of knownGeneratedFiles.
+          if ((fileToMatch.match(/.log/g) && file.indexOf(fileToMatch) === 0) || file === fileToMatch) {
+            console.log('Deleting generated file...', chalk.cyan(file));
+            fs.removeSync(path.join(root, file));
+          }
+        });
+      });
+      var remainingFiles = fs.readdirSync(path.join(root));
+      if (!remainingFiles.length) {
+        // Delete target folder if empty
+        console.log('Deleting', chalk.cyan(appName + '/'), 'from', chalk.cyan(path.resolve(root, '..')));
+        process.chdir(path.resolve(root, '..'));
+        fs.removeSync(path.join(root));
+      }
+      console.log('Done.');
       process.exit(1);
     }
 
     checkNodeVersion(packageName);
 
     // Since react-scripts has been installed with --save
-    // We need to move it into devDependencies and rewrite package.json
-    moveReactScriptsToDev(packageName);
+    // we need to move it into devDependencies and rewrite package.json
+    // also ensure react dependencies have caret version range
+    fixDependencies(packageName);
 
     var scriptsPath = path.resolve(
       process.cwd(),
@@ -230,6 +268,25 @@ function getPackageName(installPackage) {
   return installPackage;
 }
 
+function checkNpmVersion() {
+  var isNpm2 = false;
+  try {
+    var npmVersion = execSync('npm --version').toString();
+    isNpm2 = semver.lt(npmVersion, '3.0.0');
+  } catch (err) {
+    return;
+  }
+  if (!isNpm2) {
+    return;
+  }
+  console.log(chalk.yellow('It looks like you are using npm 2.'));
+  console.log(chalk.yellow(
+    'We suggest using npm 3 or Yarn for faster install times ' +
+    'and less disk space usage.'
+  ));
+  console.log();
+}
+
 function checkNodeVersion(packageName) {
   var packageJsonPath = path.resolve(
     process.cwd(),
@@ -257,11 +314,18 @@ function checkNodeVersion(packageName) {
 }
 
 function checkAppName(appName) {
+  var validationResult = validateProjectName(appName);
+  if (!validationResult.validForNewPackages) {
+    console.error('Could not create a project called ' + chalk.red('"' + appName + '"') + ' because of npm naming restrictions:');
+    printValidationResults(validationResult.errors);
+    printValidationResults(validationResult.warnings);
+    process.exit(1);
+  }
+  
   // TODO: there should be a single place that holds the dependencies
   var dependencies = ['react', 'react-dom'];
   var devDependencies = ['react-scripts'];
   var allDependencies = dependencies.concat(devDependencies).sort();
-
   if (allDependencies.indexOf(appName) >= 0) {
     console.error(
       chalk.red(
@@ -279,7 +343,29 @@ function checkAppName(appName) {
   }
 }
 
-function moveReactScriptsToDev(packageName) {
+function makeCaretRange(dependencies, name) {
+  var version = dependencies[name];
+
+  if (typeof version === 'undefined') {
+    console.error(
+      chalk.red('Missing ' + name + ' dependency in package.json')
+    );
+    process.exit(1);
+  }
+
+  var patchedVersion = '^' + version;
+
+  if (!semver.validRange(patchedVersion)) {
+    console.error(
+      'Unable to patch ' + name + ' dependency version because version ' + chalk.red(version) + ' will become invalid ' + chalk.red(patchedVersion)
+    );
+    patchedVersion = version;
+  }
+
+  dependencies[name] = patchedVersion;
+}
+
+function fixDependencies(packageName) {
   var packagePath = path.join(process.cwd(), 'package.json');
   var packageJson = require(packagePath);
 
@@ -303,6 +389,9 @@ function moveReactScriptsToDev(packageName) {
   packageJson.devDependencies[packageName] = packageVersion;
   delete packageJson.dependencies[packageName];
 
+  makeCaretRange(packageJson.dependencies, 'react');
+  makeCaretRange(packageJson.dependencies, 'react-dom');
+
   fs.writeFileSync(packagePath, JSON.stringify(packageJson, null, 2));
 }
 
@@ -311,7 +400,7 @@ function moveReactScriptsToDev(packageName) {
 // https://github.com/facebookincubator/create-react-app/pull/368#issuecomment-243446094
 function isSafeToCreateProjectIn(root) {
   var validFiles = [
-    '.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.idea', 'README.md', 'LICENSE'
+    '.DS_Store', 'Thumbs.db', '.git', '.gitignore', '.idea', 'README.md', 'LICENSE', 'web.iml'
   ];
   return fs.readdirSync(root)
     .every(function(file) {
