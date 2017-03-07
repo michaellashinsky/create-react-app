@@ -8,6 +8,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 // @remove-on-eject-end
+'use strict';
 
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
@@ -60,7 +61,9 @@ module.exports = {
         require.resolve('react-dev-utils/webpackHotDevClient'),
         // We ship a few polyfills by default:
         require.resolve('./polyfills'),
-        // Finally, this is your app's code:
+        // Errors should be considered fatal in development
+    require.resolve('react-dev-utils/crashOverlay'),
+    // Finally, this is your app's code:
         paths.appIndexJs
         // We include the app code last so that if there is a runtime error during
         // initialization, it doesn't blow up the WebpackDevServer client, and
@@ -120,7 +123,7 @@ module.exports = {
                     // @remove-on-eject-begin
                     // Point ESLint to our predefined config.
                     options: {
-                        configFile: path.join(__dirname, '../.eslintrc'),
+                        configFile: path.join(__dirname, '../eslintrc'),
                         useEslintrc: false
                     },
                     // @remove-on-eject-end
