@@ -6,7 +6,6 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-
 'use strict';
 
 const babelJest = require('babel-jest');
@@ -16,5 +15,5 @@ const customConfig = getCustomConfig(false);
 module.exports = babelJest.createTransformer({
     presets: [require.resolve('babel-preset-react-app')].concat(customConfig.presets),
     plugins: [].concat(customConfig.babelPlugins),
-    babelrc: false
+    babelrc: false,
 });
