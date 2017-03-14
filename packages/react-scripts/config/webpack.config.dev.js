@@ -20,11 +20,6 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const getCustomConfig = require('./getCustomConfig');
 
-// @remove-on-eject-begin
-// `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
-const path = require('path');
-// @remove-on-eject-end
-
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
@@ -124,7 +119,9 @@ module.exports = {
             // @remove-on-eject-begin
             // Point ESLint to our predefined config.
             options: {
-              configFile: path.join(__dirname, '../eslintrc'),
+              baseConfig: {
+                extends: ['react-app'],
+              },
               useEslintrc: false,
             },
             // @remove-on-eject-end

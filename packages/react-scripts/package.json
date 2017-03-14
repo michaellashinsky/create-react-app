@@ -11,8 +11,6 @@
     "url": "michaellashinsky/create-react-app/issues"
   },
   "files": [
-    "babelrc",
-    "eslintrc",
     "bin",
     "config",
     "scripts",
