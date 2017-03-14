@@ -41,27 +41,27 @@ var customConfig = getCustomConfig(false);
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
 module.exports = {
-    // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
-    // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
-    devtool: 'cheap-module-source-map',
-    // These are the "entry points" to our application.
-    // This means they will be the "root" imports that are included in JS bundle.
-    // The first two entry points enable "hot" CSS and auto-refreshes for JS.
-    entry: [
-        // Include an alternative client for WebpackDevServer. A client's job is to
-        // connect to WebpackDevServer by a socket and get notified about changes.
-        // When you save a file, the client will either apply hot updates (in case
-        // of CSS changes), or refresh the page (in case of JS changes). When you
-        // make a syntax error, this client will display a syntax error overlay.
-        // Note: instead of the default WebpackDevServer client, we use a custom one
-        // to bring better experience for Create React App users. You can replace
-        // the line below with these two lines if you prefer the stock client:
-        // require.resolve('webpack-dev-server/client') + '?/',
-        // require.resolve('webpack/hot/dev-server'),
-        require.resolve('react-dev-utils/webpackHotDevClient'),
-        // We ship a few polyfills by default:
-        require.resolve('./polyfills'),
-        // Errors should be considered fatal in development
+  // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+  // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+  devtool: 'cheap-module-source-map',
+  // These are the "entry points" to our application.
+  // This means they will be the "root" imports that are included in JS bundle.
+  // The first two entry points enable "hot" CSS and auto-refreshes for JS.
+  entry: [
+    // Include an alternative client for WebpackDevServer. A client's job is to
+    // connect to WebpackDevServer by a socket and get notified about changes.
+    // When you save a file, the client will either apply hot updates (in case
+    // of CSS changes), or refresh the page (in case of JS changes). When you
+    // make a syntax error, this client will display a syntax error overlay.
+    // Note: instead of the default WebpackDevServer client, we use a custom one
+    // to bring better experience for Create React App users. You can replace
+    // the line below with these two lines if you prefer the stock client:
+    // require.resolve('webpack-dev-server/client') + '?/',
+    // require.resolve('webpack/hot/dev-server'),
+    require.resolve('react-dev-utils/webpackHotDevClient'),
+    // We ship a few polyfills by default:
+    require.resolve('./polyfills'),
+    // Errors should be considered fatal in development
     require.resolve('react-dev-utils/crashOverlay'),
     // Finally, this is your app's code:
     paths.appIndexJs,
@@ -120,14 +120,15 @@ module.exports = {
         test: /\.(js|jsx)$/,
         enforce: 'pre',
         use: [
-          {// @remove-on-eject-begin
-          // Point ESLint to our predefined config.
-          options: {
-            configFile: path.join(__dirname, '../eslintrc'),
-            useEslintrc: false,
-          },
-          // @remove-on-eject-end
-          loader: 'eslint-loader',
+          {
+            // @remove-on-eject-begin
+            // Point ESLint to our predefined config.
+            options: {
+              configFile: path.join(__dirname, '../eslintrc'),
+              useEslintrc: false,
+            },
+            // @remove-on-eject-end
+            loader: 'eslint-loader',
           },
         ],
         include: paths.appSrc,
@@ -176,10 +177,12 @@ module.exports = {
         options: {
           // @remove-on-eject-begin
           babelrc: false,
-          presets: [require.resolve('babel-preset-react-app')].concat(customConfig.presets),
-            plugins: [].concat(customConfig.babelPlugins),
+          presets: [require.resolve('babel-preset-react-app')].concat(
+            customConfig.presets
+          ),
+          plugins: [].concat(customConfig.babelPlugins),
 
-            // @remove-on-eject-end
+          // @remove-on-eject-end
           // This is a feature of `babel-loader` for webpack (not Babel itself).
           // It enables caching results in ./node_modules/.cache/babel-loader/
           // directory for faster rebuilds.
@@ -199,7 +202,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
-                modules: customConfig.values.STYLES_CSS_MODULES
+              modules: customConfig.values.STYLES_CSS_MODULES,
             },
           },
           {
@@ -263,7 +266,5 @@ module.exports = {
   performance: {
     hints: false,
   },
-    externals: [
-        JSON.parse(customConfig.values.WEBPACK_EXTERNALS)
-    ]
+  externals: [JSON.parse(customConfig.values.WEBPACK_EXTERNALS)],
 };

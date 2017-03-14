@@ -43,7 +43,7 @@ var customConfig = getCustomConfig(true);
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
-    throw new Error('Production builds must have NODE_ENV=production.');
+  throw new Error('Production builds must have NODE_ENV=production.');
 }
 
 // Note: defined here because it will be used more than once.
@@ -54,8 +54,8 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // However, our output is structured with css, js and media folders.
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ?// Making sure that the publicPath goes back to to build folder.
-   {publicPath: Array(cssFilename.split('/').length).join('../')}
+  ? // Making sure that the publicPath goes back to to build folder.
+    { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
 // This is the production configuration.
@@ -68,9 +68,7 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
-  entry: [
-    require.resolve('./polyfills'),
-    paths.appIndexJs],
+  entry: [require.resolve('./polyfills'), paths.appIndexJs],
 
   output: {
     // The build folder.
@@ -122,16 +120,17 @@ module.exports = {
         test: /\.(js|jsx)$/,
         enforce: 'pre',
         use: [
-          {// @remove-on-eject-begin
-          // Point ESLint to our predefined config.
-          options: {
-            // TODO: consider separate config for production,
-            // e.g. to enable no-console and no-debugger only in production.
-            configFile: path.join(__dirname, '../eslintrc'),
-            useEslintrc: false,
-          },
-          // @remove-on-eject-end
-          loader: 'eslint-loader',
+          {
+            // @remove-on-eject-begin
+            // Point ESLint to our predefined config.
+            options: {
+              // TODO: consider separate config for production,
+              // e.g. to enable no-console and no-debugger only in production.
+              configFile: path.join(__dirname, '../eslintrc'),
+              useEslintrc: false,
+            },
+            // @remove-on-eject-end
+            loader: 'eslint-loader',
           },
         ],
         include: paths.appSrc,
@@ -178,8 +177,10 @@ module.exports = {
         // @remove-on-eject-begin
         options: {
           babelrc: false,
-          presets: [require.resolve('babel-preset-react-app')].concat(customConfig.presets),
-            plugins: [].concat(customConfig.babelPlugins)
+          presets: [require.resolve('babel-preset-react-app')].concat(
+            customConfig.presets
+          ),
+          plugins: [].concat(customConfig.babelPlugins),
         },
         // @remove-on-eject-end
       },
@@ -206,7 +207,7 @@ module.exports = {
                   loader: 'css-loader',
                   options: {
                     importLoaders: 1,
-                      modules: customConfig.values.STYLES_CSS_MODULES
+                    modules: customConfig.values.STYLES_CSS_MODULES,
                   },
                 },
                 {
@@ -298,7 +299,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
   },
-    externals: [
-        JSON.parse(customConfig.values.WEBPACK_EXTERNALS)
-    ],
+  externals: [JSON.parse(customConfig.values.WEBPACK_EXTERNALS)],
 };
