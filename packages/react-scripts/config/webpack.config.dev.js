@@ -30,7 +30,7 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 //Get custom configuration for injecting plugins, presets and loaders
-var customConfig = getCustomConfig(false);
+const customConfig = getCustomConfig(false);
 
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
