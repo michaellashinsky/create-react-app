@@ -1,8 +1,9 @@
 {
-  "name": "react-dev-utils-configurable",
-  "version": "0.0.1",
+  "name": "react-dev-utils",
+  "version": "0.5.2",
+  "private": true,
   "description": "Webpack utilities used by Create React App",
-  "repository": "michaellashinsky/create-react-app",
+  "repository": "facebookincubator/create-react-app",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/facebookincubator/create-react-app/issues"
