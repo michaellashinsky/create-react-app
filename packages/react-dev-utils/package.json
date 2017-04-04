@@ -1,6 +1,6 @@
 {
   "name": "react-dev-utils-configurable",
-  "version": "0.5.2",
+  "version": "0.0.1",
   "description": "Webpack utilities used by Create React App",
   "repository": "michaellashinsky/create-react-app",
   "license": "BSD-3-Clause",
