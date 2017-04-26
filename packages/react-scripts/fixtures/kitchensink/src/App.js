@@ -7,7 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import React, { Component, PropTypes, createElement } from 'react';
+import React, { Component, createElement } from 'react';
+import PropTypes from 'prop-types';
 
 class BuiltEmitter extends Component {
   static propTypes = {
@@ -56,9 +57,8 @@ class App extends Component {
     const feature = location.hash.slice(1);
     switch (feature) {
       case 'array-destructuring':
-        import(
-          './features/syntax/ArrayDestructuring'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/ArrayDestructuring').then(f =>
+          this.setFeature(f.default));
         break;
       case 'array-spread':
         import('./features/syntax/ArraySpread').then(f =>
@@ -73,27 +73,24 @@ class App extends Component {
           this.setFeature(f.default));
         break;
       case 'computed-properties':
-        import(
-          './features/syntax/ComputedProperties'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/ComputedProperties').then(f =>
+          this.setFeature(f.default));
         break;
       case 'css-inclusion':
         import('./features/webpack/CssInclusion').then(f =>
           this.setFeature(f.default));
         break;
       case 'custom-interpolation':
-        import(
-          './features/syntax/CustomInterpolation'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/CustomInterpolation').then(f =>
+          this.setFeature(f.default));
         break;
       case 'default-parameters':
         import('./features/syntax/DefaultParameters').then(f =>
           this.setFeature(f.default));
         break;
       case 'destructuring-and-await':
-        import(
-          './features/syntax/DestructuringAndAwait'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/DestructuringAndAwait').then(f =>
+          this.setFeature(f.default));
         break;
       case 'file-env-variables':
         import('./features/env/FileEnvVariables').then(f =>
@@ -123,9 +120,8 @@ class App extends Component {
           this.setFeature(f.default));
         break;
       case 'object-destructuring':
-        import(
-          './features/syntax/ObjectDestructuring'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/ObjectDestructuring').then(f =>
+          this.setFeature(f.default));
         break;
       case 'object-spread':
         import('./features/syntax/ObjectSpread').then(f =>
@@ -156,14 +152,12 @@ class App extends Component {
           this.setFeature(f.default));
         break;
       case 'template-interpolation':
-        import(
-          './features/syntax/TemplateInterpolation'
-        ).then(f => this.setFeature(f.default));
+        import('./features/syntax/TemplateInterpolation').then(f =>
+          this.setFeature(f.default));
         break;
       case 'unknown-ext-inclusion':
-        import(
-          './features/webpack/UnknownExtInclusion'
-        ).then(f => this.setFeature(f.default));
+        import('./features/webpack/UnknownExtInclusion').then(f =>
+          this.setFeature(f.default));
         break;
       default:
         throw new Error(`Missing feature "${feature}"`);
