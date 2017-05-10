@@ -5,7 +5,7 @@
   "repository": "michaellashinsky/create-react-app",
   "license": "BSD-3-Clause",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "bugs": {
     "url": "michaellashinsky/create-react-app/issues"
